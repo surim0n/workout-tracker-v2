@@ -1,17 +1,18 @@
-import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { NewWorkoutForm } from "@/components/workouts/new-workout-form"
 
 export default async function NewWorkoutPage() {
   const supabase = await createClient()
+  
+  // Fetch exercises from Supabase
+  const { data: exercises, error } = await supabase
+    .from("exercises")
+    .select("*")
+    .order("name")
 
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect("/auth/login")
+  if (error) {
+    console.error("Error fetching exercises:", error)
   }
-
-  // Get available exercises
-  const { data: exercises } = await supabase.from("exercises").select("*").order("name")
 
   return (
     <div className="min-h-screen bg-background">
@@ -22,7 +23,7 @@ export default async function NewWorkoutPage() {
             <p className="text-muted-foreground mt-1">Add exercises and track your performance</p>
           </div>
 
-          <NewWorkoutForm exercises={exercises || []} userId={data.user.id} />
+          <NewWorkoutForm exercises={exercises || []} userId="demo-user" />
         </div>
       </div>
     </div>

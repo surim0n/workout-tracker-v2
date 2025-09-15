@@ -1,42 +1,11 @@
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
 import { WorkoutsList } from "@/components/workouts/workouts-list"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import Link from "next/link"
 
-export default async function WorkoutsPage() {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect("/auth/login")
-  }
-
-  // Get all workouts for the user
-  const { data: workouts } = await supabase
-    .from("workouts")
-    .select(`
-      id,
-      name,
-      notes,
-      duration_minutes,
-      created_at,
-      workout_exercises (
-        id,
-        sets,
-        reps,
-        weight,
-        distance,
-        duration_seconds,
-        exercises (
-          name,
-          category
-        )
-      )
-    `)
-    .eq("user_id", data.user.id)
-    .order("created_at", { ascending: false })
+export default function WorkoutsPage() {
+  // Mock workouts data (auth disabled)
+  const mockWorkouts: any[] = []
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,7 +23,7 @@ export default async function WorkoutsPage() {
           </Button>
         </div>
 
-        <WorkoutsList workouts={workouts || []} />
+        <WorkoutsList workouts={mockWorkouts} />
       </div>
     </div>
   )

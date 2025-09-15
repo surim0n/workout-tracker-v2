@@ -4,7 +4,6 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -121,37 +120,9 @@ export function NewWorkoutForm({ exercises, userId }: NewWorkoutFormProps) {
     setError(null)
 
     try {
-      const supabase = createClient()
-
-      // Create workout
-      const { data: workout, error: workoutError } = await supabase
-        .from("workouts")
-        .insert({
-          user_id: userId,
-          name: workoutName.trim(),
-          notes: workoutNotes.trim() || null,
-          duration_minutes: duration ? Number.parseInt(duration) : null,
-        })
-        .select()
-        .single()
-
-      if (workoutError) throw workoutError
-
-      // Create workout exercises
-      const workoutExerciseData = workoutExercises.map((we) => ({
-        workout_id: workout.id,
-        exercise_id: we.exerciseId,
-        sets: we.sets,
-        reps: we.reps,
-        weight: we.weight,
-        distance: we.distance || null,
-        duration_seconds: we.duration ? we.duration * 60 : null,
-      }))
-
-      const { error: exerciseError } = await supabase.from("workout_exercises").insert(workoutExerciseData)
-
-      if (exerciseError) throw exerciseError
-
+      // Mock save for development (auth disabled)
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      alert("Workout saved! (Demo mode - not actually saved)")
       router.push("/workouts")
     } catch (error: any) {
       setError(error.message || "Failed to save workout")

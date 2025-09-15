@@ -1,54 +1,13 @@
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
 import { ProgressCharts } from "@/components/progress/progress-charts"
 import { ExerciseProgress } from "@/components/progress/exercise-progress"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
-export default async function ProgressPage() {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect("/auth/login")
-  }
-
-  // Get workout data for progress tracking
-  const { data: workouts } = await supabase
-    .from("workouts")
-    .select(`
-      id,
-      name,
-      duration_minutes,
-      created_at,
-      workout_exercises (
-        id,
-        sets,
-        reps,
-        weight,
-        distance,
-        duration_seconds,
-        exercises (
-          id,
-          name,
-          category
-        )
-      )
-    `)
-    .eq("user_id", data.user.id)
-    .order("created_at", { ascending: true })
-
-  // Get unique exercises for progress tracking
-  const exerciseMap = new Map()
-  workouts?.forEach((workout) => {
-    workout.workout_exercises.forEach((we) => {
-      if (!exerciseMap.has(we.exercises.id)) {
-        exerciseMap.set(we.exercises.id, we.exercises)
-      }
-    })
-  })
-  const uniqueExercises = Array.from(exerciseMap.values())
+export default function ProgressPage() {
+  // Mock data (auth disabled)
+  const mockWorkouts: any[] = []
+  const uniqueExercises: any[] = []
 
   return (
     <div className="min-h-screen bg-background">
@@ -67,8 +26,8 @@ export default async function ProgressPage() {
         </div>
 
         <div className="space-y-8">
-          <ProgressCharts workouts={workouts || []} />
-          <ExerciseProgress workouts={workouts || []} exercises={uniqueExercises} />
+          <ProgressCharts workouts={mockWorkouts} />
+          <ExerciseProgress workouts={mockWorkouts} exercises={uniqueExercises} />
         </div>
       </div>
     </div>
