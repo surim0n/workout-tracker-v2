@@ -37,6 +37,8 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Comment out the redirect logic to allow access without authentication
+  /*
   if (
     request.nextUrl.pathname !== "/" &&
     !user &&
@@ -48,6 +50,7 @@ export async function updateSession(request: NextRequest) {
     url.pathname = "/auth/login"
     return NextResponse.redirect(url)
   }
+  */
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   return supabaseResponse

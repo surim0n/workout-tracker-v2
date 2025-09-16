@@ -1,10 +1,15 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
+import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
+import { ConditionalLayout } from "@/components/conditional-layout"
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+})
 
 export const metadata: Metadata = {
   title: "Workout Tracker - Track Your Fitness Journey",
@@ -19,8 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={null}>{children}</Suspense>
+      <body className={`font-sans ${inter.variable}`}>
+        <Suspense fallback={null}>
+          <ConditionalLayout>{children}</ConditionalLayout>
+        </Suspense>
         <Analytics />
       </body>
     </html>
