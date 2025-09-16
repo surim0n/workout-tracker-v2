@@ -1,6 +1,4 @@
 "use client"
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp, TrendingDown, Minus } from "lucide-react"
 
@@ -161,30 +159,46 @@ export function ExerciseAnalytics({ workouts }: ExerciseAnalyticsProps) {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Exercise Performance Trends</CardTitle>
-      </CardHeader>
-      <CardContent>
+    <div className="glass-card rounded-2xl overflow-hidden">
+      <div className="p-6 border-b border-white/10">
+        <h3 className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+          Exercise Performance Trends
+        </h3>
+        <p className="text-muted-foreground text-sm mt-1">Track improvement and decline patterns</p>
+      </div>
+      <div className="p-6">
         {exerciseTrends.length === 0 ? (
-          <p className="text-center text-muted-foreground py-8">Complete more workouts to see exercise trends</p>
+          <div className="text-center py-12">
+            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-gradient-to-br from-muted/20 to-muted/5 flex items-center justify-center">
+              <TrendingUp className="h-8 w-8 text-muted-foreground/60" />
+            </div>
+            <p className="text-muted-foreground">Complete more workouts to see exercise trends</p>
+          </div>
         ) : (
           <div className="space-y-4">
-            {exerciseTrends.map((exercise) => {
+            {exerciseTrends.map((exercise, index) => {
               const TrendIcon = getTrendIcon(exercise!.trend)
               return (
-                <div key={exercise!.id} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <Badge className={getCategoryColor(exercise!.category)}>{exercise!.category}</Badge>
+                <div
+                  key={exercise!.id}
+                  className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-muted/30 to-muted/10 backdrop-blur-sm border border-white/5 hover:scale-[1.02] transition-all duration-300"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <div className="flex items-center gap-4">
+                    <Badge className={`${getCategoryColor(exercise!.category)} font-medium`}>
+                      {exercise!.category}
+                    </Badge>
                     <div>
-                      <h4 className="font-medium">{exercise!.name}</h4>
+                      <h4 className="font-semibold">{exercise!.name}</h4>
                       <p className="text-sm text-muted-foreground">{exercise!.sessions} sessions</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <TrendIcon className={`h-4 w-4 ${getTrendColor(exercise!.trend)}`} />
+                  <div className="flex items-center gap-3">
+                    <TrendIcon className={`h-5 w-5 ${getTrendColor(exercise!.trend)}`} />
                     {exercise!.trendValue > 0 && (
-                      <span className={`text-sm ${getTrendColor(exercise!.trend)}`}>{exercise!.trendValue}%</span>
+                      <span className={`text-sm font-bold ${getTrendColor(exercise!.trend)}`}>
+                        {exercise!.trendValue}%
+                      </span>
                     )}
                   </div>
                 </div>
@@ -192,7 +206,7 @@ export function ExerciseAnalytics({ workouts }: ExerciseAnalyticsProps) {
             })}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

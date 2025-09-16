@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import React from "react"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Clock, TrendingUp, Target, Award, Flame } from "lucide-react"
 
@@ -140,88 +140,101 @@ export function AnalyticsSummary({ workouts }: AnalyticsSummaryProps) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {summaryCards.map((card) => (
-          <Card key={card.title}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">{card.title}</p>
-                  <p className="text-2xl font-bold">{card.value}</p>
-                  <p className="text-xs text-muted-foreground">{card.subtitle}</p>
-                </div>
-                <div className={`p-2 rounded-lg ${card.bgColor}`}>
-                  <card.icon className={`h-5 w-5 ${card.color}`} />
-                </div>
+        {summaryCards.map((card, index) => (
+          <div
+            key={card.title}
+            className="glass-card rounded-2xl p-6 hover:scale-105 transition-all duration-300"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">{card.title}</p>
+                <p className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                  {card.value}
+                </p>
+                <p className="text-xs text-muted-foreground">{card.subtitle}</p>
               </div>
-            </CardContent>
-          </Card>
+              <div className={`p-3 rounded-2xl ${card.bgColor} backdrop-blur-sm`}>
+                {React.createElement(card.icon, { className: `h-6 w-6 ${card.color}` })}
+              </div>
+            </div>
+          </div>
         ))}
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Target className="h-5 w-5" />
-              Top Muscle Groups
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
+        <div className="glass-card rounded-2xl overflow-hidden">
+          <div className="p-6 border-b border-white/10">
+            <h3 className="text-xl font-bold flex items-center gap-2">
+              <Target className="h-5 w-5 text-primary" />
+              <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                Top Muscle Groups
+              </span>
+            </h3>
+          </div>
+          <div className="p-6">
+            <div className="space-y-4">
               {topMuscleGroups.map(([muscleGroup, count], index) => (
-                <div key={muscleGroup} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="text-xs">
+                <div
+                  key={muscleGroup}
+                  className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-muted/30 to-muted/10 backdrop-blur-sm"
+                >
+                  <div className="flex items-center gap-3">
+                    <Badge variant="outline" className="text-xs font-bold">
                       #{index + 1}
                     </Badge>
                     <span className="capitalize font-medium">{muscleGroup}</span>
                   </div>
-                  <span className="text-sm text-muted-foreground">{count} exercises</span>
+                  <span className="text-sm text-muted-foreground font-medium">{count} exercises</span>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Award className="h-5 w-5" />
-              Achievements
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
+        <div className="glass-card rounded-2xl overflow-hidden">
+          <div className="p-6 border-b border-white/10">
+            <h3 className="text-xl font-bold flex items-center gap-2">
+              <Award className="h-5 w-5 text-secondary" />
+              <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                Achievements
+              </span>
+            </h3>
+          </div>
+          <div className="p-6">
+            <div className="space-y-4">
               {workouts.length >= 10 && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-yellow-500/10 to-yellow-500/5 backdrop-blur-sm border border-yellow-500/20">
                   <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">
                     🏆 Consistent
                   </Badge>
-                  <span className="text-sm">10+ workouts logged</span>
+                  <span className="text-sm font-medium">10+ workouts logged</span>
                 </div>
               )}
               {currentStreak >= 7 && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-orange-500/10 to-orange-500/5 backdrop-blur-sm border border-orange-500/20">
                   <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300">
                     🔥 On Fire
                   </Badge>
-                  <span className="text-sm">7+ day streak</span>
+                  <span className="text-sm font-medium">7+ day streak</span>
                 </div>
               )}
               {weeklyVolume >= 1000 && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-purple-500/10 to-purple-500/5 backdrop-blur-sm border border-purple-500/20">
                   <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300">
                     💪 Strong
                   </Badge>
-                  <span className="text-sm">1000+ lbs this week</span>
+                  <span className="text-sm font-medium">1000+ lbs this week</span>
                 </div>
               )}
               {workouts.length === 0 && (
-                <p className="text-sm text-muted-foreground">Complete workouts to unlock achievements!</p>
+                <p className="text-sm text-muted-foreground text-center py-4">
+                  Complete workouts to unlock achievements!
+                </p>
               )}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   )

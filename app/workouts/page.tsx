@@ -118,19 +118,25 @@ export default async function WorkoutsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Your Workouts</h1>
-            <p className="text-muted-foreground mt-1">Track your fitness journey and see your progress</p>
+        {/* Hero Section */}
+        <div className="relative mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-8 backdrop-blur-sm border border-white/10">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent" />
+          <div className="relative z-10 flex items-center justify-between">
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                Your Workouts
+              </h1>
+              <p className="text-muted-foreground mt-2 text-lg">Track your fitness journey and see your progress</p>
+            </div>
+            <Button asChild className="glass-button">
+              <Link href="/workouts/new">
+                <Plus className="mr-2 h-4 w-4" />
+                New Workout
+              </Link>
+            </Button>
           </div>
-          <Button asChild>
-            <Link href="/workouts/new">
-              <Plus className="mr-2 h-4 w-4" />
-              New Workout
-            </Link>
-          </Button>
         </div>
 
         <WorkoutsList workouts={workouts || []} />

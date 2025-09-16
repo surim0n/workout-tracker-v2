@@ -1,6 +1,4 @@
 "use client"
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
@@ -81,11 +79,14 @@ export function WorkoutBreakdown({ workouts }: WorkoutBreakdownProps) {
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <Card>
-        <CardHeader>
-          <CardTitle>Exercise Categories</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card rounded-2xl overflow-hidden">
+        <div className="p-6 border-b border-white/10">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-chart-1 to-chart-1/70 bg-clip-text text-transparent">
+            Exercise Categories
+          </h3>
+          <p className="text-muted-foreground text-sm mt-1">Distribution of workout types</p>
+        </div>
+        <div className="p-6">
           <ChartContainer
             config={{
               strength: { label: "Strength", color: "hsl(var(--chart-1))" },
@@ -115,23 +116,29 @@ export function WorkoutBreakdown({ workouts }: WorkoutBreakdownProps) {
           </ChartContainer>
           <div className="mt-4 space-y-2">
             {categoryData.map((item, index) => (
-              <div key={item.name} className="flex items-center justify-between text-sm">
+              <div
+                key={item.name}
+                className="flex items-center justify-between text-sm p-2 rounded-lg bg-gradient-to-r from-muted/20 to-muted/5"
+              >
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
-                  <span className="capitalize">{item.name}</span>
+                  <span className="capitalize font-medium">{item.name}</span>
                 </div>
-                <span className="text-muted-foreground">{item.percentage}%</span>
+                <span className="text-muted-foreground font-medium">{item.percentage}%</span>
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Weekly Distribution</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card rounded-2xl overflow-hidden">
+        <div className="p-6 border-b border-white/10">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-chart-2 to-chart-2/70 bg-clip-text text-transparent">
+            Weekly Distribution
+          </h3>
+          <p className="text-muted-foreground text-sm mt-1">Most active days</p>
+        </div>
+        <div className="p-6">
           <ChartContainer
             config={{
               workouts: {
@@ -143,23 +150,26 @@ export function WorkoutBreakdown({ workouts }: WorkoutBreakdownProps) {
           >
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={weeklyChartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="day" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--muted-foreground))" opacity={0.2} />
+                <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="workouts" fill="var(--color-chart-2)" radius={4} />
+                <Bar dataKey="workouts" fill="var(--color-chart-2)" radius={8} />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {durationChartData.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Average Duration Trend</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card rounded-2xl overflow-hidden">
+          <div className="p-6 border-b border-white/10">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-chart-3 to-chart-3/70 bg-clip-text text-transparent">
+              Duration Trend
+            </h3>
+            <p className="text-muted-foreground text-sm mt-1">Monthly averages</p>
+          </div>
+          <div className="p-6">
             <ChartContainer
               config={{
                 avgDuration: {
@@ -171,16 +181,16 @@ export function WorkoutBreakdown({ workouts }: WorkoutBreakdownProps) {
             >
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={durationChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--muted-foreground))" opacity={0.2} />
+                  <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
+                  <YAxis stroke="hsl(var(--muted-foreground))" />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="avgDuration" fill="var(--color-chart-3)" radius={4} />
+                  <Bar dataKey="avgDuration" fill="var(--color-chart-3)" radius={8} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
     </div>
   )

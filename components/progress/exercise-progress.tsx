@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { Target, TrendingUp } from "lucide-react"
 
 interface Exercise {
   id: string
@@ -98,15 +98,17 @@ export function ExerciseProgress({ workouts, exercises }: ExerciseProgressProps)
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Exercise-Specific Progress</CardTitle>
-        <div className="flex gap-4 items-center">
+    <div className="glass-card rounded-2xl overflow-hidden">
+      <div className="p-6 border-b border-white/10">
+        <h3 className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+          Exercise-Specific Progress
+        </h3>
+        <div className="flex gap-4 items-center mt-4">
           <Select value={selectedExerciseId} onValueChange={setSelectedExerciseId}>
-            <SelectTrigger className="w-[300px]">
+            <SelectTrigger className="w-[300px] glass-input">
               <SelectValue placeholder="Select an exercise to track" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="glass-dropdown">
               {exercises.map((exercise) => (
                 <SelectItem key={exercise.id} value={exercise.id}>
                   <div className="flex items-center gap-2">
@@ -120,20 +122,28 @@ export function ExerciseProgress({ workouts, exercises }: ExerciseProgressProps)
             </SelectContent>
           </Select>
         </div>
-      </CardHeader>
-      <CardContent>
+      </div>
+      <div className="p-6">
         {!selectedExerciseId ? (
-          <div className="text-center py-8 text-muted-foreground">
-            Select an exercise to view your progress over time
+          <div className="text-center py-12">
+            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+              <Target className="h-8 w-8 text-primary/60" />
+            </div>
+            <p className="text-muted-foreground">Select an exercise to view your progress over time</p>
           </div>
         ) : progressData.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">No data available for this exercise</div>
+          <div className="text-center py-12">
+            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-gradient-to-br from-muted/20 to-muted/5 flex items-center justify-center">
+              <TrendingUp className="h-8 w-8 text-muted-foreground/60" />
+            </div>
+            <p className="text-muted-foreground">No data available for this exercise</p>
+          </div>
         ) : (
           <div className="space-y-6">
             {selectedExercise?.category === "cardio" ? (
               <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <h4 className="text-sm font-medium mb-3">Distance Progress</h4>
+                <div className="glass-card rounded-xl p-4">
+                  <h4 className="text-sm font-medium mb-3 text-chart-4">Distance Progress</h4>
                   <ChartContainer
                     config={{
                       distance: {
@@ -160,8 +170,8 @@ export function ExerciseProgress({ workouts, exercises }: ExerciseProgressProps)
                     </ResponsiveContainer>
                   </ChartContainer>
                 </div>
-                <div>
-                  <h4 className="text-sm font-medium mb-3">Duration Progress</h4>
+                <div className="glass-card rounded-xl p-4">
+                  <h4 className="text-sm font-medium mb-3 text-chart-5">Duration Progress</h4>
                   <ChartContainer
                     config={{
                       duration: {
@@ -191,8 +201,8 @@ export function ExerciseProgress({ workouts, exercises }: ExerciseProgressProps)
               </div>
             ) : (
               <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <h4 className="text-sm font-medium mb-3">Max Weight Progress</h4>
+                <div className="glass-card rounded-xl p-4">
+                  <h4 className="text-sm font-medium mb-3 text-chart-1">Max Weight Progress</h4>
                   <ChartContainer
                     config={{
                       maxWeight: {
@@ -219,8 +229,8 @@ export function ExerciseProgress({ workouts, exercises }: ExerciseProgressProps)
                     </ResponsiveContainer>
                   </ChartContainer>
                 </div>
-                <div>
-                  <h4 className="text-sm font-medium mb-3">Total Volume Progress</h4>
+                <div className="glass-card rounded-xl p-4">
+                  <h4 className="text-sm font-medium mb-3 text-chart-2">Total Volume Progress</h4>
                   <ChartContainer
                     config={{
                       totalVolume: {
@@ -251,7 +261,7 @@ export function ExerciseProgress({ workouts, exercises }: ExerciseProgressProps)
             )}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

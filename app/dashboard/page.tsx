@@ -1,9 +1,8 @@
 import { createClient } from "@/lib/supabase/server"
-import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { QuickStats } from "@/components/dashboard/quick-stats"
-import { RecentWorkouts } from "@/components/dashboard/recent-workouts"
-import { QuickActions } from "@/components/dashboard/quick-actions"
 import { WorkoutCharts } from "@/components/dashboard/workout-charts"
+import { HeroSection } from "@/components/dashboard/hero-section"
+import { EnhancedStats } from "@/components/dashboard/enhanced-stats"
+import { EnhancedRecentWorkouts } from "@/components/dashboard/enhanced-recent-workouts"
 
 const demoUser = {
   id: "demo-user",
@@ -108,20 +107,20 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8">
-      <DashboardHeader user={user} profile={profile} />
+    <div className="flex-1 space-y-8 p-4 md:p-8">
+      <HeroSection user={user} profile={profile} workoutStats={workoutStats || []} />
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-        <QuickStats workouts={workoutStats || []} />
-        <QuickActions />
-      </div>
+      <EnhancedStats workouts={workoutStats || []} />
 
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-4">Progress Overview</h2>
+      <div className="space-y-6">
+        <div className="flex items-center gap-2">
+          <div className="w-1 h-6 bg-primary rounded-full" />
+          <h2 className="text-2xl font-bold text-foreground">Progress Overview</h2>
+        </div>
         <WorkoutCharts workouts={workoutStats || []} />
       </div>
 
-      <RecentWorkouts workouts={recentWorkouts || []} />
+      <EnhancedRecentWorkouts workouts={recentWorkouts || []} />
     </div>
   )
 }

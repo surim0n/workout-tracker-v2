@@ -43,18 +43,24 @@ export default async function AnalyticsPage() {
     .order("created_at", { ascending: true })
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center gap-4 mb-8">
-          <Button asChild variant="ghost" size="sm">
-            <Link href="/dashboard">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Dashboard
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Analytics & Insights</h1>
-            <p className="text-muted-foreground mt-1">Deep dive into your fitness data and patterns</p>
+        {/* Hero Section */}
+        <div className="relative mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-chart-3/10 via-chart-4/5 to-transparent p-8 backdrop-blur-sm border border-white/10">
+          <div className="absolute inset-0 bg-gradient-to-r from-chart-3/5 to-chart-4/5" />
+          <div className="relative z-10 flex items-center gap-4">
+            <Button asChild variant="ghost" size="sm" className="glass-button">
+              <Link href="/dashboard">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Dashboard
+              </Link>
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                Analytics & Insights
+              </h1>
+              <p className="text-muted-foreground mt-2 text-lg">Deep dive into your fitness data and patterns</p>
+            </div>
           </div>
         </div>
 

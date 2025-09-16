@@ -1,6 +1,4 @@
 "use client"
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
@@ -83,11 +81,14 @@ export function ProgressCharts({ workouts }: ProgressChartsProps) {
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <Card className="md:col-span-2">
-        <CardHeader>
-          <CardTitle>Workout Frequency</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card rounded-2xl md:col-span-2 overflow-hidden">
+        <div className="p-6 border-b border-white/10">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-chart-1 to-chart-1/70 bg-clip-text text-transparent">
+            Workout Frequency
+          </h3>
+          <p className="text-muted-foreground text-sm mt-1">Weekly workout consistency</p>
+        </div>
+        <div className="p-6">
           <ChartContainer
             config={{
               workouts: {
@@ -99,22 +100,25 @@ export function ProgressCharts({ workouts }: ProgressChartsProps) {
           >
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={frequencyChartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="week" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--muted-foreground))" opacity={0.2} />
+                <XAxis dataKey="week" stroke="hsl(var(--muted-foreground))" />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="workouts" fill="var(--color-chart-1)" radius={4} />
+                <Bar dataKey="workouts" fill="var(--color-chart-1)" radius={8} />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Workout Duration Trend</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card rounded-2xl overflow-hidden">
+        <div className="p-6 border-b border-white/10">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-chart-2 to-chart-2/70 bg-clip-text text-transparent">
+            Duration Trend
+          </h3>
+          <p className="text-muted-foreground text-sm mt-1">Average workout length</p>
+        </div>
+        <div className="p-6">
           <ChartContainer
             config={{
               duration: {
@@ -126,29 +130,32 @@ export function ProgressCharts({ workouts }: ProgressChartsProps) {
           >
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={durationData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--muted-foreground))" opacity={0.2} />
+                <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Line
                   type="monotone"
                   dataKey="duration"
                   stroke="var(--color-chart-2)"
-                  strokeWidth={2}
-                  dot={{ fill: "var(--color-chart-2)" }}
+                  strokeWidth={3}
+                  dot={{ fill: "var(--color-chart-2)", strokeWidth: 2, r: 6 }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </ChartContainer>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {volumeData.length > 0 && (
-        <Card className="md:col-span-2 lg:col-span-3">
-          <CardHeader>
-            <CardTitle>Total Volume Progress (Weight × Reps)</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card rounded-2xl md:col-span-2 lg:col-span-3 overflow-hidden">
+          <div className="p-6 border-b border-white/10">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-chart-3 to-chart-3/70 bg-clip-text text-transparent">
+              Total Volume Progress
+            </h3>
+            <p className="text-muted-foreground text-sm mt-1">Weight × Reps progression over time</p>
+          </div>
+          <div className="p-6">
             <ChartContainer
               config={{
                 volume: {
@@ -160,22 +167,22 @@ export function ProgressCharts({ workouts }: ProgressChartsProps) {
             >
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={volumeData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--muted-foreground))" opacity={0.2} />
+                  <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" />
+                  <YAxis stroke="hsl(var(--muted-foreground))" />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Line
                     type="monotone"
                     dataKey="volume"
                     stroke="var(--color-chart-3)"
-                    strokeWidth={2}
-                    dot={{ fill: "var(--color-chart-3)" }}
+                    strokeWidth={3}
+                    dot={{ fill: "var(--color-chart-3)", strokeWidth: 2, r: 6 }}
                   />
                 </LineChart>
               </ResponsiveContainer>
             </ChartContainer>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
     </div>
   )
