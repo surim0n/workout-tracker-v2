@@ -3,6 +3,7 @@ import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 import { QuickStats } from "@/components/dashboard/quick-stats"
 import { RecentWorkouts } from "@/components/dashboard/recent-workouts"
 import { QuickActions } from "@/components/dashboard/quick-actions"
+import { WorkoutCharts } from "@/components/dashboard/workout-charts"
 
 const demoUser = {
   id: "demo-user",
@@ -113,6 +114,11 @@ export default async function DashboardPage() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
         <QuickStats workouts={workoutStats || []} />
         <QuickActions />
+      </div>
+
+      <div className="mb-8">
+        <h2 className="text-lg font-semibold mb-4">Progress Overview</h2>
+        <WorkoutCharts workouts={workoutStats || []} />
       </div>
 
       <RecentWorkouts workouts={recentWorkouts || []} />
