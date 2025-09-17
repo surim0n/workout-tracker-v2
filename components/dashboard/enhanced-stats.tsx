@@ -85,7 +85,7 @@ export function EnhancedStats({ workouts }: EnhancedStatsProps) {
       {stats.map((stat, index) => (
         <Card
           key={index}
-          className="relative overflow-hidden border-0 glass-card shadow-glass hover:shadow-glass-lg transition-all duration-300 hover:-translate-y-1 hover:scale-105"
+          className="relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:scale-105"
         >
           <div className={`absolute top-0 left-0 right-0 h-1 gradient-apple-warm`} />
           <div className="glass-overlay">

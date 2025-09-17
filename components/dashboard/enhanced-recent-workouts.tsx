@@ -49,8 +49,8 @@ export function EnhancedRecentWorkouts({ workouts }: EnhancedRecentWorkoutsProps
 
   if (!recentWorkouts.length) {
     return (
-      <Card className="border-0 glass-card shadow-glass-lg">
-        <div className="glass-overlay">
+      <Card>
+        <div>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Trophy className="w-5 h-5 text-primary" />
@@ -80,8 +80,8 @@ export function EnhancedRecentWorkouts({ workouts }: EnhancedRecentWorkoutsProps
   }
 
   return (
-    <Card className="border-0 glass-card shadow-glass-lg">
-      <div className="glass-overlay">
+    <Card>
+      <div>
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">

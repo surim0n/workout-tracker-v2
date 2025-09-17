@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -13,6 +14,9 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ user, profile, workoutStats }: HeroSectionProps) {
+  const [quote, setQuote] = useState("Your body can do it. It's your mind you need to convince!")
+  const [isClient, setIsClient] = useState(false)
+  
   const totalWorkouts = workoutStats?.length || 0
   const thisWeekWorkouts =
     workoutStats?.filter((w) => {
@@ -30,16 +34,21 @@ export function HeroSection({ user, profile, workoutStats }: HeroSectionProps) {
     "Your body can do it. It's your mind you need to convince!",
   ]
 
-  const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]
+  useEffect(() => {
+    setIsClient(true)
+    // Only set random quote on client side to avoid hydration issues
+    const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]
+    setQuote(randomQuote)
+  }, [])
 
   return (
-    <div className="relative overflow-hidden">
-      <div className="absolute inset-0 gradient-apple-mesh opacity-90" />
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-secondary/20" />
-      <div className="absolute inset-0 bg-[url('/abstract-fitness-pattern.png')] opacity-5" />
+    <div className="relative overflow-hidden rounded-xl">
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600" />
+      <div className="absolute inset-0 bg-gradient-to-tl from-amber-300/80 via-pink-400/60 to-purple-500/80" />
+      <div className="absolute inset-0 bg-[url('/abstract-fitness-pattern.png')] opacity-10" />
 
-      <Card className="relative border-0 glass-card shadow-glass-lg text-primary-foreground">
-        <div className="glass-overlay">
+      <Card className="relative text-white border-0 bg-transparent shadow-2xl">
+        <div className="backdrop-blur-sm bg-white/10 rounded-xl">
           <div className="p-8 md:p-12">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
               <div className="space-y-6 flex-1">
@@ -48,28 +57,28 @@ export function HeroSection({ user, profile, workoutStats }: HeroSectionProps) {
                     Welcome back, {profile?.full_name?.split(" ")[0] || "Champion"}! 🔥
                   </h1>
                   <p className="text-xl md:text-2xl text-white/90 font-medium max-w-2xl drop-shadow-md">
-                    {randomQuote}
+                    {quote}
                   </p>
                 </div>
 
                 <div className="flex flex-wrap gap-3">
                   <Badge
                     variant="secondary"
-                    className="px-4 py-2 text-sm font-semibold glass border-white/30 text-white shadow-glass"
+                    className="px-4 py-2 text-sm font-semibold bg-white/20 backdrop-blur-md border-white/40 text-white shadow-lg"
                   >
                     <Trophy className="w-4 h-4 mr-2" />
                     {totalWorkouts} Total Workouts
                   </Badge>
                   <Badge
                     variant="secondary"
-                    className="px-4 py-2 text-sm font-semibold glass border-white/30 text-white shadow-glass"
+                    className="px-4 py-2 text-sm font-semibold bg-white/20 backdrop-blur-md border-white/40 text-white shadow-lg"
                   >
                     <Flame className="w-4 h-4 mr-2" />
                     {thisWeekWorkouts} This Week
                   </Badge>
                   <Badge
                     variant="secondary"
-                    className="px-4 py-2 text-sm font-semibold glass border-white/30 text-white shadow-glass"
+                    className="px-4 py-2 text-sm font-semibold bg-white/20 backdrop-blur-md border-white/40 text-white shadow-lg"
                   >
                     <Zap className="w-4 h-4 mr-2" />
                     On Fire!
@@ -80,7 +89,7 @@ export function HeroSection({ user, profile, workoutStats }: HeroSectionProps) {
                   <Button
                     asChild
                     size="lg"
-                    className="glass-card text-primary hover:glass shadow-glass text-lg px-8 py-6 rounded-xl font-bold transition-all duration-300 hover:scale-105"
+                    className="bg-white/90 hover:bg-white text-orange-600 hover:text-orange-700 shadow-xl text-lg px-8 py-6 rounded-xl font-bold transition-all duration-300 hover:scale-105"
                   >
                     <Link href="/workouts/new">
                       <Target className="w-5 h-5 mr-2" />
@@ -91,9 +100,9 @@ export function HeroSection({ user, profile, workoutStats }: HeroSectionProps) {
               </div>
 
               <div className="hidden lg:block">
-                <div className="w-64 h-64 glass rounded-full flex items-center justify-center shadow-glass-lg">
-                  <div className="w-48 h-48 glass-card rounded-full flex items-center justify-center">
-                    <div className="w-32 h-32 gradient-apple-warm rounded-full flex items-center justify-center shadow-glass">
+                <div className="w-64 h-64 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center shadow-2xl">
+                  <div className="w-48 h-48 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                    <div className="w-32 h-32 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center shadow-xl">
                       <Flame className="w-16 h-16 text-white drop-shadow-lg" />
                     </div>
                   </div>

@@ -20,7 +20,14 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>{children}</SidebarInset>
+      <SidebarInset className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/5">
+        <div className="relative min-h-screen">
+          <div className="absolute inset-0 bg-gradient-to-tl from-amber-50/30 via-transparent to-pink-50/30" />
+          <div className="relative z-10">
+            {children}
+          </div>
+        </div>
+      </SidebarInset>
     </SidebarProvider>
   )
 }

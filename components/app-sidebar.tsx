@@ -1,8 +1,11 @@
 "use client"
 
-import { Home, Dumbbell, History, TrendingUp, BarChart3, User } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Home, Dumbbell, History, TrendingUp, BarChart3 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { createClient } from "@/lib/supabase/client"
+import { UserDropdown } from "@/components/user-dropdown"
 
 import {
   Sidebar,
@@ -47,6 +50,39 @@ const items = [
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const [user, setUser] = useState<any>(null)
+  const [profile, setProfile] = useState<any>(null)
+  const supabase = createClient()
+
+  useEffect(() => {
+    // Get current user
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+      
+      if (user) {
+        // Get user profile
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single()
+        setProfile(profile)
+      }
+    }
+
+    getUser()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null)
+      if (!session?.user) {
+        setProfile(null)
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   return (
     <Sidebar>
@@ -78,12 +114,7 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <Link href="/profile">
-                <User />
-                <span>Profile</span>
-              </Link>
-            </SidebarMenuButton>
+            <UserDropdown user={user} profile={profile} />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
