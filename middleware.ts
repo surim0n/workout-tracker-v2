@@ -1,20 +1,30 @@
-import type { NextRequest } from "next/server"
-import { NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // Skip middleware for static files and API routes
+  if (
+    request.nextUrl.pathname.startsWith('/_next/') ||
+    request.nextUrl.pathname.startsWith('/api/') ||
+    request.nextUrl.pathname.includes('.')
+  ) {
+    return NextResponse.next()
+  }
+
+  // For now, just pass through all requests
+  // Authentication will be handled client-side
   return NextResponse.next()
 }
 
 export const config = {
   matcher: [
     /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - images - .svg, .png, .jpg, .jpeg, .gif, .webp
-     * Feel free to modify this pattern to include more paths.
+     * Match all request paths except for:
+     * 1. /api (API routes)
+     * 2. /_next/static (static files)
+     * 3. /_next/image (image optimization files)
+     * 4. /favicon.ico (favicon file)
+     * 5. Static assets
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)',
   ],
 }
